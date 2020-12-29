@@ -27,10 +27,11 @@ CKEDITOR.plugins.add( 'tablesort', {
 
             if ( element ){
                 var columnNumber = element.getAscendant( { td:1 }, true ).getIndex();
-
                 var table = element.getAscendant({table:1});
                 var tbody = table.getElementsByTag('tbody').getItem(0);
+
                 if(tbody == undefined) tbody = table;
+
                 var items = tbody.$.childNodes;
                 var itemsArr = [];
                 for (var i in items) {
@@ -48,34 +49,32 @@ CKEDITOR.plugins.add( 'tablesort', {
 
 
                     for (var i in aArray) {
-                        if(aArray[i] != bArray[i]) {
+                        // Check if strings or numbers are equal. If yes, don't compare.
+                        if(aArray[i] != bArray[i] && aArray[i] - bArray[i] != 0) {
 
                             if(aArray[i]-0 + '' === 'NaN' && bArray[i]-0 + '' === 'NaN') {
                                 
-                                    if(sortAscending === true) {
-                                        return aArray[i].localeCompare(bArray[i], 'en-US-u-kf-upper')
-                                    } else {
-                                        return bArray[i].localeCompare(aArray[i], 'en-US-u-kf-upper')
-                                    }
+                                if(sortAscending === true) {
+                                    return aArray[i].localeCompare(bArray[i], 'en-US-u-kf-upper')
+                                } else {
+                                    return bArray[i].localeCompare(aArray[i], 'en-US-u-kf-upper')
+                                }
 
                             } else {
                                 if(sortAscending === true) {
-                                    if (aArray[i]-0 < bArray[i]-0) return -1;
-                                    if (aArray[i]-0 > bArray[i]-0) return 1;
-                                } else {
-                                    if (aArray[i]-0 > bArray[i]-0) return -1;
-                                    if (aArray[i]-0 < bArray[i]-0) return 1;
+                                        return aArray[i] - bArray[i]
+                                    }
+                                else {
+                                    return bArray[i] - aArray[i]
                                 }
                             }
                         }
                     }
-
                 });
 
                 for (i = 0; i < itemsArr.length; ++i) {
                   tbody.$.appendChild(itemsArr[i]);
                 }
-
             }
         }
     }
