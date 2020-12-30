@@ -23,7 +23,7 @@
     }
 
     function returnTableCell(editor) {
-        // After sorting keyboard cursor is focused on 'body'. Because of that it is necessary to check and correct context of that cursor. 
+        // After sorting keyboard cursor is focused on 'body', so it is necessary to check and correct context of that cursor. 
         var startElement = editor.getSelection().getStartElement()
 
         if ( startElement.$.tagName === 'TBODY' ) {
